@@ -95,15 +95,16 @@ export class SftpClientService {
    * returns an array of objects representing items in the remote directory.
    *
    * @param remoteDirectory {String} Remote directory path
-   * @param pattern (optional) {string|RegExp} A pattern used to filter the items included in the returned array.
-   * Pattern can be a simple glob-style string or a regular expression. Defaults to /.* &#8205;/
+   * @param filter: (optional) {function} A function used to filter the items included in the returned array. 
+   * The function is called for each item with the item object being passed in as the argument. 
+   * The function is passed to Array.filter() to perform the filtering.. Defaults to /.* &#8205;/
    *
    */
   async list(
     remoteDirectory: string,
-    pattern?: string | RegExp,
+    filter?: Function,
   ): Promise<SftpClient.FileInfo[]> {
-    return await this.sftpClient.list(remoteDirectory);
+    return await this.sftpClient.list(remoteDirectory, filter);
   }
 
   /**
